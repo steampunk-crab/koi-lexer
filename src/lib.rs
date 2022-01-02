@@ -1,63 +1,16 @@
-use logos::Logos;
+mod lexing;
 
-#[derive(Logos, Debug, PartialEq)]
-pub enum Token {
-    // Keywords
-    #[token("let")]
-    Let,
-
-    // Symbols
-    #[token(":")]
-    Colon,
-    #[token(",")]
-    Comma,
-    #[token(".")]
-    Dot,
-    #[token("=")]
-    Equal,
-    #[token("(")]
-    LParen,
-    #[token("!")]
-    Exclam,
-    #[token("?")]
-    Question,
-    #[token(")")]
-    RParen,
-    #[token(";")]
-    Semicolon,
-
-    // Or regular expressions.
-    #[regex("[a-zA-Z_]+")]
-    Identifier,
-
-    #[regex("[0-9]+")]
-    IntegerLiteral,
-    #[regex("[0-9]+.[0-9]+")]
-    NumberLiteral,
-    #[regex("\"([^\"]|\n)*\"")]
-    StringLiteral,
-
-    // Logos requires one token variant to handle errors,
-    // it can be named anything you wish.
-    #[error]
-    // We can also use this variant to define whitespace,
-    // or any other matches we wish to skip.
-    #[regex(r"[ \t\n\f]+", logos::skip)]
-    Error,
-}
-
-pub fn create_lexer(source_code: &str) -> logos::Lexer<'_, Token> {
-    Token::lexer(source_code)
-}
+pub type Lexer = lexing::Lexer<'static>;
+pub type Token = lexing::Token;
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn let_statement() {
-        use crate::{create_lexer,Token};
+        use crate::{Lexer,Token};
 
         let source_code = "let message = \"Hello, world!\"";
-        let mut lexer = create_lexer(source_code);
+        let mut lexer = Lexer::new(source_code);
 
         // let
         assert_eq!(lexer.next(), Some(Token::Let));
@@ -78,10 +31,10 @@ mod tests {
 
     #[test]
     fn test_println() {
-        use crate::{create_lexer,Token};
+        use crate::{Lexer,Token};
 
         let source_code = "println!(\"Hello, world!\")";
-        let mut lexer = create_lexer(source_code);
+        let mut lexer = Lexer::new(source_code);
 
         // println
         assert_eq!(lexer.next(), Some(Token::Identifier));

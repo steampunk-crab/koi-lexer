@@ -1,6 +1,6 @@
 mod lexing;
 
-pub type Lexer = lexing::Lexer<'static>;
+pub type Lexer<'s> = lexing::Lexer<'s>;
 pub type Token = lexing::Token;
 
 #[cfg(test)]

@@ -1,8 +1,8 @@
 use logos::Logos;
 
-pub struct Lexer<'a> {
-    lexer: logos::Lexer<'a, Token>,
-    source_code: &'a str
+pub struct Lexer<'s> {
+    lexer: logos::Lexer<'s, Token>,
+    source_code: &'s str
 }
 
 impl Lexer<'static> {

@@ -6,7 +6,7 @@ pub struct Lexer<'s> {
 }
 
 impl<'s> Lexer<'s> {
-    pub fn new(source_code: &str) -> Lexer {
+    pub fn new(source_code: &'s str) -> Lexer {
         Lexer {
             lexer: create_lexer(source_code),
             source_code: source_code

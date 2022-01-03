@@ -5,7 +5,7 @@ pub struct Lexer<'s> {
     source_code: &'s str
 }
 
-impl Lexer<'static> {
+impl<'s> Lexer<'s> {
     pub fn new(source_code: &str) -> Lexer {
         Lexer {
             lexer: create_lexer(source_code),
